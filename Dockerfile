@@ -10,6 +10,7 @@ RUN apt-get update \
     && pip install --no-cache-dir --upgrade -r requirements.txt \
     && apt-get purge -y --auto-remove gcc libgcc-10-dev libc6-dev
 
+COPY erc20.json /app/
 COPY dex_price_bot/*.py /app/
 
 CMD ["python", "main.py", "-c", "/config.yaml"]

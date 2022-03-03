@@ -40,8 +40,8 @@ class PriceHandler(commands.Cog):
         self.path = self.graph.find_path(
             self.config["token"], self.config["price_unit"]
         )
-        self.src_symbol = await self.rpc.symbol(self.src)
-        self.dst_symbol = await self.rpc.symbol(self.dst)
+        self.src_symbol = self.rpc.symbol(self.src)
+        self.dst_symbol = self.rpc.symbol(self.dst)
         await self.bot.change_presence(
             activity=Activity(
                 type=ActivityType.watching, name=f"{self.src_symbol}/{self.dst_symbol}"
@@ -58,12 +58,8 @@ class PriceHandler(commands.Cog):
         token_price = 1
         for edge in self.path:
             src, dest = edge
-            src_bal = await self.rpc.get_balance(
-                src, self.graph.edges[tuple(sorted(edge))]
-            )
-            dest_bal = await self.rpc.get_balance(
-                dest, self.graph.edges[tuple(sorted(edge))]
-            )
+            src_bal = self.rpc.get_balance(src, self.graph.edges[tuple(sorted(edge))])
+            dest_bal = self.rpc.get_balance(dest, self.graph.edges[tuple(sorted(edge))])
             ratio = src_bal / dest_bal
             token_price *= ratio
         if token_price != self.price:
