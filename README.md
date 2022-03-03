@@ -1,5 +1,5 @@
-# Cronos Price Bot
-## A Discord Bot for tracking price of DEX tokens
+# DEX Price Bot
+## A Discord Bot for tracking price of DEX tokens on EVM compatible chains
 
 ### Setting Up
 You will need to replace `config/config.yaml` with the required settings.
@@ -11,14 +11,14 @@ liquidity_pools:
     - <pool_token_one 0xdeadbeef>
     - <pool_token_two 0xdeadbeef>
 ```
-You can get these variables through DexScreener, or using a cronos chain explorer.
+You can get these variables through DexScreener, or using a chain explorer.
 
 #### Starting and Ending tokens
 ```
 price_unit: 0xc21223249CA28397B4B6541dfFaEcC539BfF0c59  # USDC <token that is being used as the price standard>
 token: 0x10C9284E6094b71D3CE4E38B8bFfc668199da677  # MIMAS <token you are getting the price of>
 ```
-You can once again get these variables through DexScreener or a cronos chain explorer.
+You can once again get these variables through DexScreener or a chain explorer.
 These contract addresses must be in the `liquidity_pools` section of the config, and must be able to be routed to each other using the liquidity pools. Please use pools with high liquidity where possible to ensure accurate prices.
 
 #### Discord Token
@@ -30,7 +30,12 @@ You can create a bot application [here](https://discord.com/developers/applicati
 ```
 json_rpc_url: https://rpc.vvs.finance/
 ```
-You can use any rpc url here.
+You can use any rpc url for the EVM compatible chain you are using this price bot for.
+#### Display Format
+```
+display_format: "{token} ${price:.3f} {price_unit}"
+```
+This can be used to set the format of the bot name. This may be useful if there are many zeros in your token price, in which case you can use scientific formatting `{price:.3e}`. You can also customize the amount of decimal places or significant figures in the price this way, as well as removing your token name `{token}` or pricing unit `{price_unit}`.
 
 ### Installation
 
@@ -40,13 +45,13 @@ screen
 python3 -m venv venv
 source venv/bin/activate
 pip install -e .
-python3 cro_price_bot/main.py -c config/config.yaml
+python3 dex_price_bot/main.py -c config/config.yaml
 ```
 
 ### Running it using docker
 ```sh
-docker build . --tag cro_price_bot:latest
-docker run -v $PWD/config/config.yaml:/config.yaml cro_price_bot:latest
+docker build . --tag dex_price_bot:latest
+docker run -v $PWD/config/config.yaml:/config.yaml dex_price_bot:latest
 ```
 
 ## Donate

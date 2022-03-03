@@ -9,6 +9,7 @@ schema = Map(
         "token": Str(),
         "discord_token": Str(),
         "json_rpc_url": Str(),
+        "display_format": Str(),
     }
 )
 
@@ -18,13 +19,3 @@ def load_config(file_path: str) -> Dict:
         _cfg = fp.read()
     cfg = load(_cfg, schema).data
     return cfg
-    """
-    assert cfg["token_contract"].startswith("0x") and len(cfg["token_contract"]) == 42
-    if not cfg["discord"].get("ignore_users_with_roles"):
-        cfg["discord"]["ignore_users_with_roles"] = set()
-    else:
-        cfg["discord"]["ignore_users_with_roles"] = set(
-            cfg["discord"]["ignore_users_with_roles"]
-        )
-    return cfg
-    """

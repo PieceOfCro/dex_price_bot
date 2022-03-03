@@ -9,3 +9,4 @@ price_unit: 0xc21223249CA28397B4B6541dfFaEcC539BfF0c59  # USDC
 token: 0x10C9284E6094b71D3CE4E38B8bFfc668199da677  # MIMAS
 discord_token: xxxxx
 json_rpc_url: https://rpc.vvs.finance/
+display_format: "{token} ${price:.3f} {price_unit}"

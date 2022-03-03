@@ -15,13 +15,17 @@ class PriceHandler(commands.Cog):
         self.initial_start.start()
         self.graph = Graph()
         self.config = config
+
         self.src = config["token"]
         self.dst = config["price_unit"]
         self.src_symbol = None
         self.dst_symbol = None
+
         self.path = None
         self.rpc = RPCUtils(config["json_rpc_url"])
         self.price = 0
+
+        self.display_format = config["display_format"]
 
     @loop(count=1)
     async def initial_start(self):
@@ -67,7 +71,12 @@ class PriceHandler(commands.Cog):
                 f"Price of {self.src_symbol} updated to ${token_price:.6f} {self.dst_symbol}"
             )
             self.price = token_price
+
             for guild in self.bot.guilds:
                 await guild.me.edit(
-                    nick=f"{self.src_symbol}: ${self.price} {self.dst_symbol}"
+                    nick=self.display_format.format(
+                        token=self.src_symbol,
+                        price=self.price,
+                        price_unit=self.dst_symbol,
+                    )
                 )
