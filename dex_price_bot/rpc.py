@@ -3,6 +3,7 @@ import math
 
 from log import logger
 from web3 import HTTPProvider, Web3
+from functools import lru_cache
 
 
 class RPCUtils:
@@ -12,10 +13,12 @@ class RPCUtils:
         logger.info(f"RPC url set as: {json_rpc_url}")
         self.abi = json.load(open("erc20.json", "r"))
 
+    @lru_cache()
     def decimals(self, token: str) -> int:
         contract = self.w3.eth.contract(token, abi=self.abi)
         return contract.functions.decimals().call()
 
+    @lru_cache()
     def symbol(self, token: str) -> str:
         contract = self.w3.eth.contract(token, abi=self.abi)
         return contract.functions.symbol().call()
